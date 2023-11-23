@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer type="module" src="./main.js"></script>
+  </head>
+  <body>
+    <main>
+      <section class="weather-app">
+        <form class="search">
+          <input type="text" placeholder="Aktobe" />
+          <button type="submit"><img src="./assets/icon-search.svg" /></button>
+        </form>
+        <div class="weather">
+          <div class="weather-degrees"><span>14&deg;</span></div>
+          <img
+            class="weather-icon"
+            src="./assets/icons-openweathermap/01d.svg"
+            alt=""
+            width="150px"
+            height="150px"
+          />
+          <div class="current-location">
+            <p>Aktobe</p>
+            <img src="./assets/icon-heart.svg" alt="heart-icon" />
+          </div>
+        </div>
+        <div class="locations-title"><p>Added Locations:</p></div>
+        <ul class="locations-list">
+          <li class="location-name">Amur</li>
+          <li class="location-name">Samara</li>
+          <li class="location-name">Bali</li>
+          <li class="location-name">Dane</li>
+          <li class="location-name">Kilo</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
