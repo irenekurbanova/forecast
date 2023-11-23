@@ -13,15 +13,15 @@ const handleFormSubmit = async (event) => {
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
   const data = await getJSON(url);
-  const weather = createWeatherObject(data);
-  reRenderUI(weatherUI, weather);
+  // const weather = createWeatherObject(data);
+  // reRenderUI(weatherUI, weather);
 
-  // return new Promise(() => {
-  //   setTimeout(() => {
-  //     const weather = createWeatherObject(data);
-  //     reRenderUI(weatherUI, weather);
-  //   }, 10);
-  // });
+  return new Promise(() => {
+    setTimeout(() => {
+      const weather = createWeatherObject(data);
+      reRenderUI(weatherUI, weather);
+    }, 10);
+  });
 };
 
 const reRenderUI = (parentElement, weather) => {
