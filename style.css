@@ -8,6 +8,11 @@ html {
   color: #000;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 main {
   height: 100vh;
   display: flex;
@@ -16,24 +21,43 @@ main {
   background: #076585;
   background: -webkit-linear-gradient(to top, #fff, #076585);
   background: linear-gradient(to top, #fff, #076585);
-  /* background-image: url("./img/tyler-lastovich-VuRQP-kOYbc-unsplash.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
 }
 
 .weather-app {
   max-width: 600px;
   width: 100%;
-  /* border: 1px solid; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1.5fr 5.5fr;
   gap: 10px;
 }
 
+@media screen and (max-width: 650px) {
+  html {
+    font-size: 18px;
+  }
+
+  .weather-app {
+    margin: 20px;
+  }
+
+  #degrees {
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .weather-app {
+    grid-template-rows: 0.8fr 1.5fr 3.5fr;
+  }
+
+  .weather-icon {
+    height: 100px;
+    width: 100px;
+  }
+}
+
 .search {
-  /* border: 1px solid; */
   border-radius: 10px;
   grid-column: 1 / -1;
   display: flex;
@@ -60,7 +84,7 @@ input::placeholder {
 }
 
 .weather {
-  /* border: 1px solid; */
+  padding: 20px;
   border-radius: 10px;
   background-color: #ffffff5e;
 
@@ -71,30 +95,16 @@ input::placeholder {
   justify-content: space-between;
 }
 
-.weather-degrees {
-  padding-top: 20px;
-  padding-left: 20px;
-}
-
 .weather-icon {
   align-self: center;
-  background: #81b3c3; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to top,
-    #f2f7f9,
-    #81b3c3
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to top,
-    #f2f7f9,
-    #81b3c3
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #81b3c3;
+  background: -webkit-linear-gradient(to top, #f2f7f9, #81b3c3);
+  background: linear-gradient(to top, #f2f7f9, #81b3c3);
   border-radius: 100%;
   filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.3));
 }
 
 .current-location {
-  padding: 20px 15px 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -102,7 +112,6 @@ input::placeholder {
 
 .locations-title {
   padding-left: 20px;
-  /* border: 1px solid; */
   border-radius: 10px;
   background-color: #ffffff5e;
 
@@ -114,7 +123,6 @@ input::placeholder {
   padding-top: 20px;
   padding-left: 15px;
 
-  /* border: 1px solid; */
   border-radius: 10px;
   background-color: #ffffff5e;
 
@@ -122,7 +130,24 @@ input::placeholder {
   grid-row: 3 / 5;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.location-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.location-name > p {
+  margin: 0;
+  cursor: pointer;
+}
+
+.delete-btn {
+  font-weight: 600;
+  background-color: transparent;
 }
 
 button {
@@ -142,6 +167,28 @@ ul {
   margin: 0;
 }
 
-span {
+.weather-degrees > span {
   font-size: 70px;
+}
+
+.lucide-heart {
+  z-index: 0;
+}
+
+svg:hover {
+  fill: red;
+  cursor: pointer;
+}
+
+.bounce-effect {
+  animation: bounce 1s ease-in 1;
+}
+
+@keyframes bounce {
+  20% {
+    transform: translateY(-5px);
+  }
+  40% {
+    transform: none;
+  }
 }
