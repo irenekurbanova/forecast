@@ -36,10 +36,8 @@ export const createWeatherMarkup = (parentElement, weather) => {
 export const createLocationMarkup = (parentElement, cityName) => {
   const markup = `
   <li class="location-name">
-   <button type="button" class="delete-btn">
-     <span class="lnr lnr-cross"></span>
-   </button>
-   <p class="fav-city">${cityName}</p>
+    <span class="lnr lnr-cross"></span>
+    <p class="fav-city">${cityName}</p>
   </li>
   `;
   parentElement.insertAdjacentHTML("beforeend", markup);

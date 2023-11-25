@@ -80,15 +80,19 @@ const handleAddFavorite = (event) => {
 };
 
 const handleDeleteLocation = (event) => {
-  const favName = event.target.nextSibling.textContent;
+  const favName = event.target.nextElementSibling.textContent;
+
+  console.log(favName);
   favoriteLocations.splice(
     favoriteLocations.findIndex((item) => item.cityName === favName),
     1
   );
+  console.log(favoriteLocations);
   deleteParentNodes(locationList);
   favoriteLocations.map((item) =>
     createLocationMarkup(locationList, item.cityName)
   );
+  console.log(favoriteLocations);
 };
 
 const showFavoritesWeather = async (event) => {

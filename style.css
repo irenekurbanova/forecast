@@ -150,6 +150,10 @@ input::placeholder {
   background-color: transparent;
 }
 
+.lnr-cross {
+  font-size: 18px;
+}
+
 button {
   border: none;
   cursor: pointer;
