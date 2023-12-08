@@ -1,106 +1,119 @@
-import { createLocationMarkup, createWeatherMarkup } from "./markup.js";
+import { createMarkup } from "./markup.js";
+import {
+  createWeatherObject,
+  deleteFavoriteLocation,
+  deleteParentNodes,
+  checkIfValid,
+} from "./helpers.js";
+import {
+  weatherUI,
+  locationList,
+  form,
+  input,
+  errorContainer,
+} from "./DOMelements.js";
+import {
+  addToStorage,
+  setCurrentCity,
+  getFavoriteLocations,
+} from "./localStorage.js";
+import { fetchData } from "./API.js";
 
-const serverUrl = "https://api.openweathermap.org/data/2.5/weather";
-const apiKey = "63a7e2a14a9ec168471f7c2d8cd6e676";
+const favoriteLocations = getFavoriteLocations() ?? [];
 
-const form = document.querySelector("form");
-const input = document.querySelector("input");
-const weatherUI = document.querySelector(".weather");
-const locationList = document.querySelector(".locations-list");
-
-const favoriteLocations = [];
+const initialInput = "";
 
 const handleFormSubmit = async (event) => {
   event.preventDefault();
-  const initialInput = "";
 
-  const cityName = input.value;
+  const cityName = input.value.trim();
 
-  const data = await fetchData(cityName);
-  input.value = initialInput;
-  reRenderUI(weatherUI, createWeatherObject(data));
-};
-
-const reRenderUI = (parentElement, weather) => {
-  deleteParentNodes(parentElement);
-  createWeatherMarkup(parentElement, weather);
-};
-
-const deleteParentNodes = (parentElement) => {
-  while (parentElement.firstChild) {
-    parentElement.removeChild(parentElement.lastChild);
-  }
-};
-
-const fetchData = async (cityName) => {
   try {
-    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
-    const response = await fetch(url);
-    const data = await response.json();
+    if (checkIfValid(cityName))
+      throw new Error("Input field should not be empty");
 
-    if (!response.ok) throw new Error("Something went wrong");
+    const data = await fetchData(cityName);
 
-    return data;
+    reRenderUI(weatherUI, createWeatherObject(data));
+
+    input.value = initialInput;
   } catch (error) {
-    alert(error);
+    deleteParentNodes(errorContainer);
+    createMarkup(errorContainer, null, null, error.message);
   }
-};
-
-const createWeatherObject = function (data) {
-  const weather = data;
-  return {
-    cityName: weather.name,
-    temp: weather.main.temp,
-    icon: weather.weather[0].icon,
-    description: weather.weather[0].description,
-  };
 };
 
 const handleAddFavorite = (event) => {
-  if (!event.target.parentElement.classList.contains("lucide-heart")) return;
+  if (!event.target.classList.contains("favorite-btn")) return;
+  const favoriteBtn = document.querySelector(".favorite-btn");
 
-  const favoriteBtn = document.querySelector(".lucide-heart");
   const currentLocationName = document.querySelector(
     ".current-location-cityName"
   );
 
+  const cityName = currentLocationName.textContent;
+
   favoriteBtn.classList.add("bounce-effect");
-  favoriteBtn.classList.add("favorite");
+  if (favoriteBtn.classList.contains("liked")) {
+    favoriteBtn.classList.remove("liked");
+    deleteFavoriteLocation(favoriteLocations, cityName);
+    addToStorage(favoriteLocations);
+    deleteParentNodes(locationList);
+    favoriteLocations.map((item) =>
+      createMarkup(locationList, null, item.cityName)
+    );
+  } else {
+    favoriteBtn.classList.add("liked");
+    favoriteLocations.push({ cityName });
+    addToStorage(favoriteLocations);
+    deleteParentNodes(locationList);
+    favoriteLocations.map((item) =>
+      createMarkup(locationList, null, item.cityName)
+    );
+  }
 
   favoriteBtn.onanimationend = () => {
     favoriteBtn.classList.remove("bounce-effect");
   };
-
-  const cityName = currentLocationName.textContent;
-  favoriteLocations.push({ cityName, favorite: true });
-  deleteParentNodes(locationList);
-  favoriteLocations.map((item) =>
-    createLocationMarkup(locationList, item.cityName)
-  );
 };
 
 const handleDeleteLocation = (event) => {
   const favName = event.target.nextElementSibling.textContent;
 
-  console.log(favName);
-  favoriteLocations.splice(
-    favoriteLocations.findIndex((item) => item.cityName === favName),
-    1
-  );
-  console.log(favoriteLocations);
+  deleteFavoriteLocation(favoriteLocations, favName);
+  addToStorage(favoriteLocations);
   deleteParentNodes(locationList);
   favoriteLocations.map((item) =>
-    createLocationMarkup(locationList, item.cityName)
+    createMarkup(locationList, null, item.cityName)
   );
-  console.log(favoriteLocations);
+  const favoriteBtn = document.querySelector(".favorite-btn");
+  favoriteBtn.classList.remove("liked");
 };
 
-const showFavoritesWeather = async (event) => {
+const showFavoritesWeather = (event) => {
   const cityName = event.target.textContent;
 
-  const data = await fetchData(cityName);
-  reRenderUI(weatherUI, createWeatherObject(data));
+  fetchData(cityName).then((data) =>
+    reRenderUI(weatherUI, createWeatherObject(data))
+  );
+  setCurrentCity(cityName);
 };
+
+const reRenderUI = (parentElement, weather) => {
+  deleteParentNodes(parentElement);
+  createMarkup(parentElement, weather, null, null, favoriteLocations);
+};
+
+window.addEventListener("DOMContentLoaded", async function (event) {
+  const cityName = this.localStorage.getItem("currentCity") || "Moscow";
+
+  const data = await fetchData(cityName);
+
+  reRenderUI(weatherUI, createWeatherObject(data));
+  favoriteLocations.map((item) =>
+    createMarkup(locationList, null, item.cityName)
+  );
+});
 
 form.addEventListener("submit", handleFormSubmit);
 weatherUI.addEventListener("click", handleAddFavorite);

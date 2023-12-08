@@ -28,7 +28,7 @@ main {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1.5fr 5.5fr;
+  grid-template-rows: 0.75fr 1.25fr 5.5fr;
   gap: 10px;
 }
 
@@ -40,24 +40,16 @@ main {
   .weather-app {
     margin: 20px;
   }
-
-  #degrees {
-    font-size: 40px;
-  }
 }
 
 @media screen and (max-width: 400px) {
   .weather-app {
     grid-template-rows: 0.8fr 1.5fr 3.5fr;
   }
-
-  .weather-icon {
-    height: 100px;
-    width: 100px;
-  }
 }
 
 .search {
+  background-color: #eff6f8;
   border-radius: 10px;
   grid-column: 1 / -1;
   display: flex;
@@ -84,30 +76,79 @@ input::placeholder {
 }
 
 .weather {
-  padding: 20px;
   border-radius: 10px;
   background-color: #ffffff5e;
 
   grid-column: 1 / 2;
-  grid-row: 2 / 5;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  grid-row: 2 / -1;
 }
 
-.weather-icon {
-  align-self: center;
+.tabs-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.input {
+  display: none;
+}
+
+.input:checked + label {
+  color: #fff;
+  border-radius: 0 0 10px 10px;
   background: #81b3c3;
-  background: -webkit-linear-gradient(to top, #f2f7f9, #81b3c3);
-  background: linear-gradient(to top, #f2f7f9, #81b3c3);
-  border-radius: 100%;
-  filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.3));
+  transition: all 250ms;
+}
+
+.label {
+  border-top: 1px solid #076585;
+  cursor: pointer;
+  transition: color 250ms;
+  padding: 10px;
+  text-align: center;
+  transition: all 250ms;
+}
+
+.label:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tab-item {
+  padding: 10px 20px 10px 20px;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+input#tab_01:checked ~ .tab-item:not(:nth-of-type(1)),
+input#tab_02:checked ~ .tab-item:not(:nth-of-type(2)),
+input#tab_03:checked ~ .tab-item:not(:nth-of-type(3)) {
+  display: none;
 }
 
 .current-location {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.current-location-degrees {
+  font-size: 70px;
+}
+
+.current-location-weather-icon {
+  width: 200px;
+  align-self: center;
+  display: block;
+  background: #81b3c3;
+  background: -webkit-linear-gradient(to top, #f2f7f9, #81b3c3);
+  background: linear-gradient(to top, #f2f7f9, #81b3c3);
+  border-radius: 100%;
+  filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.3));
 }
 
 .locations-title {
@@ -120,6 +161,8 @@ input::placeholder {
 }
 
 .locations-list {
+  max-height: 540px;
+  overflow-y: auto;
   padding-top: 20px;
   padding-left: 15px;
 
@@ -127,7 +170,7 @@ input::placeholder {
   background-color: #ffffff5e;
 
   grid-column: 2 / -1;
-  grid-row: 3 / 5;
+  grid-row: 3 / -1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -138,6 +181,10 @@ input::placeholder {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.current-location > p {
+  margin: 0;
 }
 
 .location-name > p {
@@ -152,6 +199,7 @@ input::placeholder {
 
 .lnr-cross {
   font-size: 18px;
+  cursor: pointer;
 }
 
 button {
@@ -171,21 +219,60 @@ ul {
   margin: 0;
 }
 
-.weather-degrees > span {
-  font-size: 70px;
+.weather-details {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.lucide-heart {
-  z-index: 0;
+.weather-details p {
+  padding: 5px;
+  margin: 0;
 }
 
-svg:hover {
-  fill: red;
+.hourly-forecast {
+  padding: 5px;
+  border-radius: 10px;
+
+  background: #6ba5b5;
+  background: -webkit-linear-gradient(to top, #f2f7f9, #6ba5b5);
+  background: linear-gradient(to top, #f2f7f9, #6ba5b5);
+  filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.3));
+
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hourly-forecast-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.favorite-btn {
+  width: 30px;
+  height: 30px;
+  background: url("./assets/icon-heart.svg") no-repeat;
   cursor: pointer;
 }
 
+.liked {
+  background: url("./assets/icon-heart-filled.svg") no-repeat;
+}
+
 .bounce-effect {
-  animation: bounce 1s ease-in 1;
+  animation: bounce 0.45s ease-in 1;
+}
+
+.error {
+  font-size: 18px;
+  color: red;
+  text-align: center;
+  grid-column: 1 / -1;
+  border-radius: 10px;
+  background-color: #ffffff5e;
 }
 
 @keyframes bounce {
