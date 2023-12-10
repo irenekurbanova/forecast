@@ -19,7 +19,10 @@ export const createMarkup = (
             <input type="radio" id="tab_03" name="tabs" class="input" />
             <label for="tab_03" class="label">Forecast</label>
             <div id="tab-now" class="tab-item">
+              <div>
               <span class="current-location-degrees">${weather.temp}&deg;</span>
+              <p>${weather.dateTime}</p>
+              </div>
               <img
                 class="current-location-weather-icon"
                 src="./assets/icons-openweathermap/${weather.icon}.svg"
@@ -38,31 +41,35 @@ export const createMarkup = (
             </div>
             <div class="tab-item" id="tab-details">
               <div class="weather-details">
-                <p>Feels like: ${weather.feelsLike}</p>
+                <p class="weather-details-city">${weather.cityName}</p>
+                <p>Feels like: ${weather.feelsLike}&deg;</p>
+                <p>Humidity level: ${weather.humidity}%</p>
                 <p>Sunrise: ${weather.sunrise}</p>
                 <p>Sunset: ${weather.sunset}</p>
               </div>
             </div>
             <div class="tab-item" id="tab-forecast">
+              <p class="tab-item-city">${weather.cityName}</p>
               <div class="hourly-forecast">
-                <div class="hourly-forecast-time">${
-                  weather.morningForecast.dateTime
-                }</div>
+                <div class="hourly-forecast-time">
+                <p>${weather.firstTimeStampForecast.dateTime}</p>
+                <p></p>
+                </div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
-                      weather.morningForecast.temp
-                    }</div>
+                      weather.firstTimeStampForecast.temp
+                    }&deg;</div>
                     <div class="time">Feels like: ${
-                      weather.morningForecast.feelsLike
-                    }</div>
+                      weather.firstTimeStampForecast.feelsLike
+                    }&deg;</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
                     src="./assets/icons-openweathermap/${
-                      weather.morningForecast.icon
+                      weather.firstTimeStampForecast.icon
                     }.svg"
-                    alt="${weather.morningForecast.description}"
+                    alt="${weather.firstTimeStampForecast.description}"
                     width="48px"
                     height="48px"
                   />
@@ -70,23 +77,23 @@ export const createMarkup = (
               </div>
               <div class="hourly-forecast">
                 <div class="hourly-forecast-time">${
-                  weather.dayForecast.dateTime
+                  weather.secondTimeStampForecast.dateTime
                 }</div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
-                      weather.dayForecast.temp
-                    }</div>
+                      weather.secondTimeStampForecast.temp
+                    }&deg;</div>
                     <div class="time">Feels like: ${
-                      weather.dayForecast.feelsLike
-                    }</div>
+                      weather.secondTimeStampForecast.feelsLike
+                    }&deg;</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
                     src="./assets/icons-openweathermap/${
-                      weather.dayForecast.icon
+                      weather.secondTimeStampForecast.icon
                     }.svg"
-                    alt="${weather.dayForecast.description}"
+                    alt="${weather.secondTimeStampForecast.description}"
                     width="48px"
                     height="48px"
                   />
@@ -94,23 +101,23 @@ export const createMarkup = (
               </div>
               <div class="hourly-forecast">
                 <div class="hourly-forecast-time">${
-                  weather.eveningForecast.dateTime
+                  weather.thirdTimeStampForecast.dateTime
                 }</div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
-                      weather.eveningForecast.temp
-                    }</div>
+                      weather.thirdTimeStampForecast.temp
+                    }&deg;</div>
                     <div class="time">Feels like: ${
-                      weather.eveningForecast.feelsLike
-                    }</div>
+                      weather.thirdTimeStampForecast.feelsLike
+                    }&deg;</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
                     src="./assets/icons-openweathermap/${
-                      weather.eveningForecast.icon
+                      weather.thirdTimeStampForecast.icon
                     }.svg"
-                    alt="${weather.eveningForecast.description}"
+                    alt="${weather.thirdTimeStampForecast.description}"
                     width="48px"
                     height="48px"
                   />
@@ -123,10 +130,10 @@ export const createMarkup = (
 
   if (parentElement === locationList) {
     markup = `
-  <li class="location-name">
-    <span class="lnr lnr-cross"></span>
-    <p class="fav-city">${cityName}</p>
-  </li>
+     <li class="location-name">
+       <span class="lnr lnr-cross"></span>
+       <p class="fav-city">${cityName}</p>
+     </li>
   `;
   }
 

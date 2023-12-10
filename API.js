@@ -36,7 +36,7 @@ export const fetchLatLonData = async (cityName) => {
 
 export const fetchForecastData = async ({ lat, lon }) => {
   try {
-    const url = `${serverUrl}forecast?lat=${lat}&lon=${lon}&cnt=3&appid=${apiKey}&units=metric`;
+    const url = `${serverUrl}forecast?lat=${lat}&lon=${lon}&cnt=4&appid=${apiKey}&units=metric`;
     const response = await fetch(url);
     const data = await response.json();
 
