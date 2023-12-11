@@ -1,5 +1,5 @@
 const serverUrl = "https://api.openweathermap.org/data/2.5/";
-const geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct";
+const geoCodingUrl = "https://api.openweathermap.org/geo/1.0/direct";
 const apiKey = "e3299253c4b95e1ce399295bbd26beb9";
 
 export const fetchData = async (cityName) => {
