@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 html {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
@@ -21,27 +26,6 @@ main {
   background: #076585;
   background: -webkit-linear-gradient(to top, #fff, #076585);
   background: linear-gradient(to top, #fff, #076585);
-}
-
-button {
-  border: none;
-  cursor: pointer;
-  background-color: #eff6f8;
-  padding: 0;
-}
-
-input {
-  border: none;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-p {
-  margin: 0;
 }
 
 .weather-app {
@@ -137,16 +121,13 @@ input::placeholder {
 }
 
 .tab-item {
+  min-height: 400px;
   padding: 10px 20px 10px 20px;
   grid-column: 1 / -1;
   grid-row: 1 / -1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-
-.tab-item-city {
-  padding-block: 10px;
 }
 
 input#tab_01:checked ~ .tab-item:not(:nth-of-type(1)),
@@ -211,7 +192,12 @@ input#tab_03:checked ~ .tab-item:not(:nth-of-type(3)) {
   gap: 10px;
 }
 
+.current-location > p {
+  margin: 0;
+}
+
 .location-name > p {
+  margin: 0;
   cursor: pointer;
 }
 
@@ -225,38 +211,48 @@ input#tab_03:checked ~ .tab-item:not(:nth-of-type(3)) {
   cursor: pointer;
 }
 
-.weather-details {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+button {
+  border: none;
+  cursor: pointer;
+  background-color: #eff6f8;
+  padding: 0;
 }
 
-.weather-details p {
-  padding: 5px;
+input {
+  border: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .hourly-forecast {
-  margin-top: 10px;
+  padding: 5px;
   border-radius: 10px;
-  padding: 8px;
-  font-size: 14px;
 
   background: #6ba5b5;
-  background: -webkit-linear-gradient(to top, #f2f7f9, #6ba5b5);
-  background: linear-gradient(to top, #f2f7f9, #6ba5b5);
+  background: -webkit-linear-gradient(to bottom, #f2f7f9, #6ba5b5);
+  background: linear-gradient(to bottom, #f2f7f9, #6ba5b5);
   filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.3));
 
+  font-size: 18px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
-.hourly-forecast-details {
+.hourly-forecast-details,
+.hourly-forecast-time {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .favorite-btn {

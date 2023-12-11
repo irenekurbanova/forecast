@@ -1,65 +1,54 @@
 export const createWeatherObject = function ({ data, hourlyForecastData }) {
   const weather = data;
   const hourlyForecast = hourlyForecastData;
-  console.log(weather);
   return {
-    dateTime: dateConverter(weather.dt),
-    timezone: weather.timezone,
+    dateTime: dateTimeConverter(weather.dt, weather.timezone),
+    humidity: weather.main.humidity,
     cityName: weather.name,
     temp: Math.round(weather.main.temp),
     feelsLike: Math.round(weather.main.feels_like),
-    humidity: weather.main.humidity,
     icon: weather.weather[0].icon,
-    description: weather.weather[0].description,
-    sunrise: timeConverter(weather.sys.sunrise, weather.timezone),
-    sunset: timeConverter(weather.sys.sunset, weather.timezone),
+    description: weather.weather[0].main,
+    sunrise: dateTimeConverter(weather.sys.sunrise, weather.timezone),
+    sunset: dateTimeConverter(weather.sys.sunset, weather.timezone),
     firstTimeStampForecast: {
-      dateTime: timeConverter(hourlyForecast.list[1].dt),
+      dateTime: dateTimeConverter(hourlyForecast.list[0].dt, weather.timezone),
+      temp: Math.round(hourlyForecast.list[0].main.temp),
+      feelsLike: Math.round(hourlyForecast.list[0].main.feels_like),
+      icon: hourlyForecast.list[0].weather[0].icon,
+      description: hourlyForecast.list[0].weather[0].description,
+    },
+    secondTimeStampForecast: {
+      dateTime: dateTimeConverter(hourlyForecast.list[1].dt, weather.timezone),
       temp: Math.round(hourlyForecast.list[1].main.temp),
       feelsLike: Math.round(hourlyForecast.list[1].main.feels_like),
       icon: hourlyForecast.list[1].weather[0].icon,
       description: hourlyForecast.list[1].weather[0].description,
     },
-    secondTimeStampForecast: {
-      dateTime: timeConverter(hourlyForecast.list[2].dt),
+    thirdTimeStampForecast: {
+      dateTime: dateTimeConverter(hourlyForecast.list[2].dt, weather.timezone),
       temp: Math.round(hourlyForecast.list[2].main.temp),
       feelsLike: Math.round(hourlyForecast.list[2].main.feels_like),
       icon: hourlyForecast.list[2].weather[0].icon,
       description: hourlyForecast.list[2].weather[0].description,
     },
-    thirdTimeStampForecast: {
-      dateTime: timeConverter(hourlyForecast.list[3].dt),
-      temp: Math.round(hourlyForecast.list[3].main.temp),
-      feelsLike: Math.round(hourlyForecast.list[3].main.feels_like),
-      icon: hourlyForecast.list[3].weather[0].icon,
-      description: hourlyForecast.list[3].weather[0].description,
-    },
   };
 };
 
-const dateConverter = (sec) => {
-  const fullDate = new Date(sec * 1000);
-  const weekday = fullDate.toLocaleString("en-EN", {
-    weekday: "long",
+const dateTimeConverter = (sec, timezone) => {
+  const timezoneOffset = new Date().getTimezoneOffset() * 60;
+  const fullDate = new Date((sec + timezone + timezoneOffset) * 1000);
+
+  const dateMonth = fullDate.toLocaleString("en-En", {
+    month: "long",
+    day: "numeric",
   });
-  const dateMonth =
-    fullDate.getDate() +
-    " " +
-    fullDate.toLocaleString("en-En", {
-      month: "long",
-    });
   const time = fullDate.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
 
-  return `${weekday}, ${dateMonth} \n ${time}`;
-};
-
-const timeConverter = (sec, timezone = 0) => {
-  const time = (sec + timezone) * 1000;
-
-  return new Date(time).toISOString().slice(11, 16);
+  return { dateMonth, time };
 };
 
 export const checkIfValid = (value) => {

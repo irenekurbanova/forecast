@@ -18,11 +18,8 @@ export const createMarkup = (
             <label for="tab_02" class="label">Details</label>
             <input type="radio" id="tab_03" name="tabs" class="input" />
             <label for="tab_03" class="label">Forecast</label>
-            <div id="tab-now" class="tab-item">
-              <div>
+            <div class="tab-item" id="tab-now">
               <span class="current-location-degrees">${weather.temp}&deg;</span>
-              <p>${weather.dateTime}</p>
-              </div>
               <img
                 class="current-location-weather-icon"
                 src="./assets/icons-openweathermap/${weather.icon}.svg"
@@ -40,29 +37,32 @@ export const createMarkup = (
               </div>
             </div>
             <div class="tab-item" id="tab-details">
+              <p class="current-location-cityName">${weather.cityName}</p>
+              <p>${weather.dateTime.dateMonth}, ${weather.dateTime.time}</p>
               <div class="weather-details">
-                <p class="weather-details-city">${weather.cityName}</p>
-                <p>Feels like: ${weather.feelsLike}&deg;</p>
-                <p>Humidity level: ${weather.humidity}%</p>
-                <p>Sunrise: ${weather.sunrise}</p>
-                <p>Sunset: ${weather.sunset}</p>
+                <p>Temperature: ${weather.temp}&deg;C</p>
+                <p>Weather: ${weather.description}</p>
+                <p>Feels like: ${weather.feelsLike}&deg;C</p>
+                <p>Humidity: ${weather.humidity}&percnt;</p>
+                <p>Sunrise: ${weather.sunrise.time}</p>
+                <p>Sunset: ${weather.sunset.time}</p>
               </div>
             </div>
             <div class="tab-item" id="tab-forecast">
-              <p class="tab-item-city">${weather.cityName}</p>
+              <p class="current-location-cityName">${weather.cityName}</p>
               <div class="hourly-forecast">
                 <div class="hourly-forecast-time">
-                <p>${weather.firstTimeStampForecast.dateTime}</p>
-                <p></p>
+                  <p>${weather.firstTimeStampForecast.dateTime.dateMonth}</p>
+                  <p>${weather.firstTimeStampForecast.dateTime.time}</p>
                 </div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
                       weather.firstTimeStampForecast.temp
-                    }&deg;</div>
+                    }</div>
                     <div class="time">Feels like: ${
                       weather.firstTimeStampForecast.feelsLike
-                    }&deg;</div>
+                    }</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
@@ -76,17 +76,18 @@ export const createMarkup = (
                 </div>
               </div>
               <div class="hourly-forecast">
-                <div class="hourly-forecast-time">${
-                  weather.secondTimeStampForecast.dateTime
-                }</div>
+                <div class="hourly-forecast-time"><p>${
+                  weather.secondTimeStampForecast.dateTime.dateMonth
+                }</p>
+                <p>${weather.secondTimeStampForecast.dateTime.time}</p></div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
                       weather.secondTimeStampForecast.temp
-                    }&deg;</div>
+                    }</div>
                     <div class="time">Feels like: ${
                       weather.secondTimeStampForecast.feelsLike
-                    }&deg;</div>
+                    }</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
@@ -100,17 +101,18 @@ export const createMarkup = (
                 </div>
               </div>
               <div class="hourly-forecast">
-                <div class="hourly-forecast-time">${
-                  weather.thirdTimeStampForecast.dateTime
-                }</div>
+                <div class="hourly-forecast-time"><p>${
+                  weather.thirdTimeStampForecast.dateTime.dateMonth
+                }</p>
+                <p>${weather.thirdTimeStampForecast.dateTime.time}</p></div>
                 <div class="hourly-forecast-details">
                   <div class="hourly-forecast-temp">
                     <div class="time">Temperature: ${
                       weather.thirdTimeStampForecast.temp
-                    }&deg;</div>
+                    }</div>
                     <div class="time">Feels like: ${
                       weather.thirdTimeStampForecast.feelsLike
-                    }&deg;</div>
+                    }</div>
                   </div>
                   <img
                     class="hourly-forecast-icon"
@@ -130,10 +132,10 @@ export const createMarkup = (
 
   if (parentElement === locationList) {
     markup = `
-     <li class="location-name">
-       <span class="lnr lnr-cross"></span>
-       <p class="fav-city">${cityName}</p>
-     </li>
+  <li class="location-name">
+    <span class="lnr lnr-cross"></span>
+    <p class="fav-city">${cityName}</p>
+  </li>
   `;
   }
 
